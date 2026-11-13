@@ -1,0 +1,55 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { content, locales, type Locale } from '../../../data/content';
+import { posts, newsAuthor, type NewsPost } from '../../../data/news';
+import { pathFor } from '../../../lib/site';
+
+export function getStaticPaths() {
+  return posts.flatMap(post => locales.map(locale => ({
+    params: { locale, slug: post.slug },
+    props: { locale, post },
+  })));
+}
+
+interface Props {
+  locale: Locale;
+  post: NewsPost;
+}
+
+const { locale, post } = Astro.props;
+const c = content[locale];
+const article = post[locale];
+const ko = locale === 'ko';
+const categoryIndex = { notice: 0, update: 1, devlog: 2 } as const;
+const category = c.news.categories[categoryIndex[post.category]];
+---
+
+<Layout locale={locale} route="news" article={post}>
+  <section class="page-intro wrap">
+    <a class="back-link" href={pathFor(locale, 'news')}>← {c.nav.news}</a>
+    <p class="eyebrow">{category.title}</p>
+    <h1>{article.title}</h1>
+    <p class="lede">{article.summary}</p>
+    <dl class="article-meta">
+      <div>
+        <dt>{ko ? '작성자' : 'Author'}</dt>
+        <dd>{newsAuthor}</dd>
+      </div>
+      <div>
+        <dt>{ko ? '게시일' : 'Published'}</dt>
+        <dd><time datetime={post.publishedAt}>{post.publishedAt}</time></dd>
+      </div>
+      {post.dateModified && <div>
+        <dt>{ko ? '수정일' : 'Updated'}</dt>
+        <dd><time datetime={post.dateModified}>{post.dateModified}</time></dd>
+      </div>}
+    </dl>
+  </section>
+  <article class="article-body wrap" aria-label={article.title}>
+    {article.paragraphs.map(paragraph => <p>{paragraph}</p>)}
+    {article.links && <ul aria-label={ko ? '관련 링크' : 'Related links'}>
+      {article.links.map(link => <li><a class="text-link" href={link.url}>{link.label}</a></li>)}
+    </ul>}
+    <a class="back-link" href={pathFor(locale, 'news')}>← {c.nav.news}</a>
+  </article>
+</Layout>

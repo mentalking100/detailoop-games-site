@@ -1,0 +1,9 @@
+node_modules/
+dist/
+dist-public/
+dist-public-verification.json
+verification-report.json
+.astro/
+.wrangler/
+.env*
+*.log

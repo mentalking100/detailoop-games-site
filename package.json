@@ -1,0 +1,28 @@
+{
+  "name": "detailoop-games-site",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "prebuild": "node worker/prepare-video.mjs",
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build",
+    "build:public": "node scripts/build-public.mjs",
+    "check": "astro check",
+    "verify": "node scripts/verify.mjs",
+    "preview": "astro preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "astro": "7.4.11"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "cheerio": "^1.1.2",
+    "sharp": "0.35.5",
+    "typescript": "^5.9.3",
+    "wrangler": "4.160.1"
+  }
+}

@@ -1,0 +1,11 @@
+---
+import {content, facts, type Locale} from '../data/content';
+import {pathFor} from '../lib/site';
+interface Props {locale:Locale}
+const {locale}=Astro.props;
+const c=content[locale];
+---
+<section class="founder-profile wrap" id="founder" aria-labelledby="founder-name">
+  <div class="founder-identity"><p class="eyebrow">{c.founder.sectionTitle}</p><h2 id="founder-name">{facts.personName}</h2><p class="founder-role">{c.founder.role}</p><a class="text-link" href={pathFor(locale,'studio/park-jaeyoung')}>{c.ui.founder}<span aria-hidden="true">↗</span></a></div>
+  <div class="founder-body"><p class="founder-intro">{c.founder.intro}</p><p>{c.founder.approach}</p><div class="founder-details"><section><h3>{c.founder.activitiesLabel}</h3><p>{c.founder.activity}</p><p class="founder-responsibility">{c.founder.responsibility}</p></section><section><h3>{c.founder.bioLabel}</h3><ul>{c.founder.bio.map(line=><li>{line}</li>)}</ul></section></div></div>
+</section>

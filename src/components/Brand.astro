@@ -1,0 +1,10 @@
+---
+import {facts, type Locale} from '../data/content';
+import {pathFor} from '../lib/site';
+interface Props {locale: Locale}
+const {locale}=Astro.props;
+---
+<a class="brand" href={pathFor(locale)} aria-label={`${facts.brand} ${locale==='ko'?'홈':'home'}`}>
+  <span class="brand-symbol" aria-hidden="true"><span><img src="/media/detailoop-logo.png" alt="" width="1254" height="1254" /></span></span>
+  <span class="brand-type"><span>detailoop</span><small>GAMES</small></span>
+</a>

@@ -1,0 +1,8 @@
+---
+import {content,facts,type Locale} from '../data/content';
+interface Props {locale: Locale}
+const {locale}=Astro.props;
+const c=content[locale];
+---
+{facts.storeVerified ? <a class="button primary" href={facts.storeUrl} target="_blank" rel="noopener noreferrer">{c.game.storeCta}<span>↗</span></a> : <div class="store-pending"><span class="button primary" aria-disabled="true">{c.game.storeCta}<span>↗</span></span><small>{locale==='ko'?'스토어 링크 확인 중':'Store link awaiting verification'}</small></div>}
+<style>.store-pending{display:inline-flex;align-items:flex-start;flex-direction:column;gap:8px}.store-pending .button{background:#777f70;cursor:default;transform:none}.store-pending small{font-size:11px;color:var(--muted)}</style>

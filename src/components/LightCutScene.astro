@@ -1,0 +1,34 @@
+---
+// Light geometry follows each separately composed artwork, in source-image pixels.
+const scenes = [
+  {kind:'desktop',w:1672,h:941,path:'M0 389 L898 754 L928 754 L1672 565',floor:'M0 817 L898 754 L928 754 L1672 756 L1672 941 L0 941 Z',x:1000,y:736,rx:270,ry:130,reflectY:817,reflectRx:390,reflectRy:105},
+  {kind:'mobile',w:941,h:1672,path:'M0 900 L470 1230 L941 1015',floor:'M0 1240 L470 1230 L941 1243 L941 1672 L0 1672 Z',x:490,y:1220,rx:230,ry:170,reflectY:1340,reflectRx:360,reflectRy:170}
+];
+---
+<div class="world-scene" aria-hidden="true">
+  <picture class="world-picture">
+    <source media="(max-width: 700px)" type="image/avif" srcset="/media/lightcut-mobile-20261116-640.avif 640w, /media/lightcut-mobile-20261116-941.avif 941w" sizes="(max-width: 430px) 430px, 100vw" width="941" height="1672"/>
+    <source media="(max-width: 700px)" type="image/webp" srcset="/media/lightcut-mobile-20261116-640.webp 640w, /media/lightcut-mobile-20261116-941.webp 941w" sizes="(max-width: 430px) 430px, 100vw" width="941" height="1672"/>
+    <source type="image/avif" srcset="/media/lightcut-desktop-20261116-960.avif 960w, /media/lightcut-desktop-20261116-1280.avif 1280w, /media/lightcut-desktop-20261116-1672.avif 1672w" sizes="(max-width: 1400px) 1400px, (max-width: 1920px) 100vw, 1920px"/>
+    <source type="image/webp" srcset="/media/lightcut-desktop-20261116-960.webp 960w, /media/lightcut-desktop-20261116-1280.webp 1280w, /media/lightcut-desktop-20261116-1672.webp 1672w" sizes="(max-width: 1400px) 1400px, (max-width: 1920px) 100vw, 1920px"/>
+    <img data-intro-image src="/media/lightcut-desktop-20261116-1672.webp" width="1672" height="941" alt="" loading="eager" fetchpriority="high" decoding="async"/>
+  </picture>
+  {scenes.map(s=><svg class={`lightcut-map lightcut-map--${s.kind}`} viewBox={`0 0 ${s.w} ${s.h}`} preserveAspectRatio="xMidYMax slice" focusable="false">
+    <defs>
+      <radialGradient id={`beam-${s.kind}`}><stop offset="0" stop-color="#fffdf0"/><stop offset=".27" stop-color="#fff0bf" stop-opacity=".95"/><stop offset=".65" stop-color="#e8bd7f" stop-opacity=".42"/><stop offset="1" stop-color="#d6ad74" stop-opacity="0"/></radialGradient>
+      <radialGradient id={`reflection-${s.kind}`}><stop stop-color="#f6d9a5" stop-opacity=".5"/><stop offset=".4" stop-color="#c6ab7c" stop-opacity=".16"/><stop offset="1" stop-color="#c6ab7c" stop-opacity="0"/></radialGradient>
+      <mask id={`seam-${s.kind}`} maskUnits="userSpaceOnUse" x="0" y="0" width={s.w} height={s.h}>
+        <path d={s.path} fill="none" stroke="white" stroke-width="32" opacity=".045"/>
+        <path d={s.path} fill="none" stroke="white" stroke-width="16" opacity=".12"/>
+        <path d={s.path} fill="none" stroke="white" stroke-width="7" opacity=".4"/>
+        <path d={s.path} fill="none" stroke="white" stroke-width="2.8"/>
+      </mask>
+      <clipPath id={`floor-${s.kind}`}><path d={s.floor}/></clipPath>
+    </defs>
+    <g class="lightcut-arrival">
+      <g clip-path={`url(#floor-${s.kind})`}><ellipse class="lightcut-reflection" cx={s.x} cy={s.reflectY} rx={s.reflectRx} ry={s.reflectRy} fill={`url(#reflection-${s.kind})`}/></g>
+      <g mask={`url(#seam-${s.kind})`}><ellipse class="lightcut-traveler" cx={s.x} cy={s.y} rx={s.rx} ry={s.ry} fill={`url(#beam-${s.kind})`}/></g>
+    </g>
+  </svg>)}
+  <div class="world-shade"></div>
+</div>

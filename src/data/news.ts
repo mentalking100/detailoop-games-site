@@ -1,5 +1,6 @@
 import { facts } from './content';
 import { policyOperationRules } from './policies';
+import { gameCatalog } from './games.ts';
 
 export const newsCategories = ['notice', 'update', 'devlog'] as const;
 export type NewsCategory = (typeof newsCategories)[number];
@@ -25,6 +26,40 @@ export interface NewsPost {
 export const newsAuthor = facts.brand;
 
 export const posts: readonly NewsPost[] = [
+  {
+    slug: 'cat-courier-club-release',
+    category: 'notice',
+    publishedAt: '2026-11-16',
+    author: newsAuthor,
+    ko: {
+      title: '고양이 택배국 Google Play 출시 안내',
+      summary: '고양이와 다섯 섬을 여행하며 세 가지 배달 퍼즐을 풀어 보는 고양이 택배국을 소개합니다.',
+      paragraphs: [
+        '고양이 택배국이 Google Play에 출시되었습니다.',
+        gameCatalog('ko')[1].description,
+        '한붓 배달에서는 같은 칸을 다시 지나지 않고 모든 집을 거쳐 깃발에 도착합니다. 도로 연결에서는 도로 조각을 돌려 배달길을 만들고, 선물 담기에서는 모양이 다른 선물을 상자에 맞춰 넣습니다.',
+      ],
+      links: [
+        {label: '고양이 택배국 소개', url: '/ko/games/cat-courier-club/'},
+        {label: 'Google Play에서 보기', url: gameCatalog('ko')[1].storeUrl},
+        {label: '고양이 택배국 개인정보처리방침', url: gameCatalog('ko')[1].privacyUrl},
+      ],
+    },
+    en: {
+      title: '고양이 택배국 is now on Google Play',
+      summary: 'Meet 고양이 택배국, a delivery puzzle game across five islands with a cat.',
+      paragraphs: [
+        '고양이 택배국 is now available on Google Play.',
+        gameCatalog('en')[1].description,
+        'In One-Stroke Delivery, visit every house and reach the flag without revisiting a square. In Road Connection, rotate the roads to make a delivery route. In Packing Gifts, fit differently shaped gifts into a box.',
+      ],
+      links: [
+        {label: 'Explore 고양이 택배국', url: '/en/games/cat-courier-club/'},
+        {label: 'View on Google Play', url: gameCatalog('en')[1].storeUrl},
+        {label: '고양이 택배국 Privacy Policy', url: gameCatalog('en')[1].privacyUrl},
+      ],
+    },
+  },
   {
     slug: 'hoegwi-0504-online-records',
     category: 'notice',

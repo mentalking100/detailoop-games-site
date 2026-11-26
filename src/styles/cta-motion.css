@@ -1,0 +1,16 @@
+/* Labels and hit areas stay still; only a decorative halo and the arrow move. */
+.spotlight-copy .game-cta{position:relative;isolation:isolate;min-height:50px;padding:12px 22px;border:1px solid #9fd4bb77;border-radius:999px;background:#20392ccc;gap:26px;line-height:1.5;transition:background .2s,border-color .2s,transform .15s}
+.round-arrow[data-cta-attention]{position:relative;isolation:isolate;background:#1b2c2273;border-color:#91ba9e99;transition:background .2s,border-color .2s,transform .15s}
+[data-cta-attention]::before{content:'';position:absolute;inset:-5px;z-index:-1;border:1px solid #b8e9ce88;border-radius:inherit;background:#a8dac40c;box-shadow:0 0 22px 5px #9cdbb82e;opacity:0;pointer-events:none}
+.round-arrow[data-cta-attention]::before{inset:-4px;box-shadow:0 0 16px 3px #9cdbb822}
+[data-cta-attention] .cta-arrow{display:inline-block;transition:transform .25s;line-height:1}
+.cta-attention-playing::before{animation:cta-halo 2s ease-in-out .3s infinite}
+.cta-attention-playing .cta-arrow{animation:cta-arrow-hint 2s ease-in-out .3s infinite}
+.spotlight-copy .game-cta:is(:hover,:focus-visible),.game-card:is(:hover,:focus-visible) .round-arrow{background:#31573f;border-color:#c1ead2}
+.spotlight-copy .game-cta:is(:hover,:focus-visible) .cta-arrow,.game-card:is(:hover,:focus-visible) .cta-arrow{transform:translate(3px,-3px)}
+.spotlight-copy .game-cta:active,.game-card:active .round-arrow{transform:scale(.97)}
+@keyframes cta-halo{0%,75%,100%{opacity:0;transform:scale(.98)}35%{opacity:.85;transform:scale(1.025)}}
+@keyframes cta-arrow-hint{0%,65%,100%{transform:translate(0,0)}35%{transform:translate(3px,-3px)}}
+@media(max-width:700px){.spotlight-copy .game-cta{min-height:48px;padding:12px 20px;gap:22px}.round-arrow[data-cta-attention]{width:48px;height:48px}}
+@media(prefers-reduced-motion:reduce){.cta-attention-playing::before,.cta-attention-playing .cta-arrow{animation:none!important}[data-cta-attention], [data-cta-attention] .cta-arrow{transition:none!important;transform:none!important}}
+@media print{[data-cta-attention]::before{display:none}.cta-attention-playing .cta-arrow{animation:none;transform:none}}

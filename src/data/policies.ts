@@ -99,11 +99,11 @@ export const policyDocuments: Record<PolicyKey, Record<Locale, PolicyTranslation
   'game-privacy': {
     ko: {
       title: content.ko.policies.gamePrivacy,
-      summary: '회귀버튼의 기기 저장과 0.50.4에서 제공할 선택형 온라인 기록에 관한 개인정보처리방침입니다. 온라인 기록에 관한 항목은 해당 기능의 제공이 시작된 뒤 적용됩니다.',
+      summary: '회귀버튼의 기기 저장과 0.50.4에서 제공하는 선택형 온라인 기록에 관한 개인정보처리방침입니다. 온라인 기록에 관한 항목은 해당 기능을 이용할 때 적용됩니다.',
       sections: [
         { heading: '운영자와 문의', paragraphs: [
           `개인 개발자 ${facts.personName}이 ${facts.brandKo}라는 브랜드로 ${facts.gameName}을 개발합니다. 개인정보 관련 문의와 열람·정정·삭제·처리정지 요청은 ${facts.email}으로 받습니다. 요청 처리 시 필요한 범위에서 본인 확인을 할 수 있습니다.`,
-          '이 문서는 게임의 기기 저장과 온라인 기록에 적용될 내용입니다. 홈페이지 방문 정보는 홈페이지 개인정보처리방침에서 안내합니다.'
+          '이 문서는 게임의 기기 저장과 온라인 기록에 적용됩니다. 홈페이지 방문 정보는 홈페이지 개인정보처리방침에서 안내합니다.'
         ] },
         { heading: '기기에 남는 정보와 선택적 연결', paragraphs: [
           '게임용 이름·설정·진행 상태·선택 기록과 공유용 이미지·영상은 기기에서 처리합니다. 앱 데이터 삭제나 앱 제거로 기기 기록이 사라질 수 있습니다. 사용자가 다른 앱에 전달한 파일은 그 서비스에서 별도로 관리합니다.',
@@ -139,7 +139,7 @@ export const policyDocuments: Record<PolicyKey, Record<Locale, PolicyTranslation
           '연령 확인을 위해 생년월일·신분증을 입력하거나 이메일로 보내도록 요구하지 않습니다. 기준의 버전과 서버 확인 시각만 계정에 저장하며, 일반 게임 진행과 기존 온라인 계정 삭제 요청은 연령 자기 확인으로 막지 않습니다. 영어 홈페이지 제공이 모든 국가의 온라인 이용 요건 충족을 뜻하지는 않습니다.'
         ] },
         { heading: '문의 정보와 변경 안내', paragraphs: [
-          `${facts.email}으로 직접 보내신 이메일 주소·문의 내용·첨부자료는 문의 응답과 문제 해결을 위해 처리합니다. 일반 문의는 처리 중 보관하고, 처리 완료 후 후속 응대를 위해 최대 ${rules.supportRetentionDays}일 보관한 뒤 삭제하는 기준으로 준비합니다. 받은메일·보낸메일·첨부자료와 별도로 내려받은 사본을 함께 정리합니다. 비밀번호나 인증 코드는 보내지 마세요.`,
+          `${facts.email}으로 직접 보내신 이메일 주소·문의 내용·첨부자료는 문의 응답과 문제 해결을 위해 처리합니다. 일반 문의는 처리 중 보관하고, 처리 완료 후 후속 응대를 위해 최대 ${rules.supportRetentionDays}일 보관한 뒤 삭제합니다. 받은메일·보낸메일·첨부자료와 별도로 내려받은 사본을 함께 정리합니다. 비밀번호나 인증 코드는 보내지 마세요.`,
           '진행 중인 분쟁이나 법률에 따른 별도 보존 사유가 있으면 해당 항목·근거·기간을 따로 정하고, 사유가 종료되면 삭제합니다. 현재 해당 사유가 없는 자료에 일괄 장기 보관기간을 붙이지 않습니다.',
           '개인정보 처리 방식이 달라지면 이 페이지에 적용일과 변경 내용을 안내합니다.'
         ] }
@@ -162,7 +162,7 @@ export const policyDocuments: Record<PolicyKey, Record<Locale, PolicyTranslation
     },
     en: {
       title: content.en.policies.gamePrivacy,
-      summary: 'The privacy policy for on-device storage in 회귀버튼 and the optional online records planned for version 0.50.4. The online records provisions apply once the feature becomes available.',
+      summary: 'The privacy policy for on-device storage in 회귀버튼 and the optional online records available in version 0.50.4. The online records provisions apply when you use that feature.',
       sections: [
         { heading: 'Operator and contact', paragraphs: [
           `Individual developer ${facts.personName} develops ${facts.gameName} under the ${facts.brand} brand. Privacy questions and requests to access, correct, delete or stop processing information can be sent to ${facts.email}. Identity may be checked to the extent needed to handle a request.`,

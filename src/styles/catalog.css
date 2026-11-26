@@ -1,0 +1,79 @@
+/* Two releases share the same card geometry; actual Play imagery stays identifiable. */
+.home-games{border-top:1px solid var(--line);padding-top:76px;padding-bottom:94px}
+.home-games .section-heading{margin-bottom:30px}
+.home-games .section-heading .eyebrow{margin-bottom:11px}
+.home-games .section-heading h2{font-size:clamp(30px,3vw,40px)}
+.catalog-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:stretch}
+.catalog-grid .game-card{display:flex;flex-direction:column;gap:0;min-width:0;overflow:hidden;border:1px solid #708a7445;border-radius:12px;background:#1b2520;transition:border-color .25s,transform .35s,box-shadow .35s}
+.catalog-grid .game-card:hover{border-color:#a3d4b778;transform:translateY(-4px);box-shadow:0 22px 48px #0004}
+.catalog-grid .game-card-art{aspect-ratio:1.62;width:100%;border:0;border-radius:0;box-shadow:none;flex:none}
+.catalog-grid .game-card .room-art{object-position:58% 58%}
+.catalog-grid .game-card .art-shade{background:linear-gradient(0deg,#11201972,transparent 45%)}
+.catalog-grid .game-card .game-icon{width:17%;left:5%;bottom:8%}
+.catalog-grid .game-card .year-tag{font-size:clamp(22px,2.8vw,38px);font-weight:560;right:5%;top:6%;white-space:nowrap}
+.catalog-grid .game-card .year-tag span{margin-left:7px}
+.catalog-grid .game-card-info{display:flex;flex:1;flex-direction:row;align-items:flex-end;justify-content:space-between;gap:18px;min-height:196px;padding:24px 26px 27px}
+.catalog-grid .game-card-info>div{min-width:0;align-self:flex-start}
+.catalog-grid .game-card-info .eyebrow{margin-bottom:8px}
+.catalog-grid .game-card-info h3{font-size:clamp(27px,2.5vw,34px);line-height:1.22}
+.catalog-grid .game-card-info p{font-size:15.5px;line-height:1.7;margin-top:12px;max-width:460px}
+.catalog-grid .round-arrow{width:46px;height:46px;align-self:flex-end;margin:0}
+.listing.catalog-grid{padding-bottom:120px}
+
+.cat-card-art{position:absolute;inset:0;overflow:hidden;background:radial-gradient(ellipse at 42% 35%,#eff7ec 0%,#c7e1d1 48%,transparent 76%),linear-gradient(135deg,#afcdbc,#557765)}
+.cat-card-halo{position:absolute;left:19%;top:-47%;width:70%;aspect-ratio:1;border:1px solid #fff8;border-radius:50%;box-shadow:0 0 0 55px #fff2,0 0 0 115px #fff1}
+.cat-card-screen{position:absolute;height:93%;width:auto;top:8%;border:2px solid #fff8;border-radius:12px;box-shadow:0 12px 30px #1b392854;object-fit:cover}
+.cat-card-screen-left{left:18%;transform:rotate(-10deg)}
+.cat-card-screen-main{left:50%;z-index:2;transform:translateX(-50%);top:4%;height:102%}
+.cat-card-screen-right{right:17%;transform:rotate(10deg)}
+.cat-card-icon{position:absolute;z-index:3;left:5%;bottom:7%;width:15%;border-radius:20%;box-shadow:0 8px 25px #20402b5c}
+.cat-card .year-tag{z-index:3;color:#174d3a;text-shadow:0 1px 8px #f4fff2}
+.cat-card .year-tag span{font-size:.8em}
+
+.cat-detail-hero{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:clamp(32px,5vw,70px);align-items:center;padding-top:58px;padding-bottom:86px}
+.cat-detail-copy{min-width:0}
+.cat-detail-copy .game-identity{margin-bottom:28px}
+.cat-detail-copy .game-identity img{width:82px;height:82px;object-fit:cover;border-radius:19px}
+.cat-detail-copy .game-identity h1{font-size:clamp(36px,4vw,50px)}
+.cat-detail-copy h2{font-size:clamp(29px,3vw,40px);line-height:1.35}
+.cat-detail-copy .lede{font-size:17px;max-width:510px;margin-top:22px}
+.cat-detail-actions{display:flex;flex-direction:column;align-items:flex-start;gap:15px;margin-top:30px}
+.cat-detail-actions .text-link{font-size:13px}
+.cat-hero-visual{position:relative;overflow:hidden;height:550px;border:1px solid #b9d9bf55;border-radius:12px;background:radial-gradient(ellipse at 50% 30%,#e1efe0,#adcab8 65%,#527b68);box-shadow:0 20px 50px #0003}
+.cat-hero-glow{position:absolute;left:0;right:0;top:-40%;height:80%;border-radius:50%;background:#fff9;filter:blur(65px)}
+.cat-hero-visual img{position:absolute;bottom:-8%;width:auto;height:94%;max-width:none;border:2px solid #fff9;border-radius:15px;box-shadow:0 18px 45px #17442c55}
+.cat-hero-visual .cat-hero-main{z-index:2;left:50%;height:104%;transform:translateX(-50%)}
+.cat-hero-side-left{left:2%;transform:rotate(-9deg)}
+.cat-hero-side-right{right:2%;transform:rotate(9deg)}
+.cat-screens{grid-template-columns:repeat(4,minmax(0,1fr));max-width:none;gap:25px}
+.cat-screens img{width:100%;height:auto;aspect-ratio:800/1422;object-fit:contain}
+.cat-screens figcaption{font-size:12px;margin-top:9px;color:var(--muted)}
+
+@media(max-width:900px){
+  .catalog-grid{gap:18px}
+  .catalog-grid .game-card-info{padding:20px;min-height:205px}
+  .catalog-grid .game-card-info h3{font-size:27px}
+  .catalog-grid .game-card-info p{font-size:14.5px}
+  .cat-detail-hero{gap:28px}
+  .cat-hero-visual{height:460px}
+}
+@media(max-width:700px){
+  .home-games{padding-top:52px;padding-bottom:65px}
+  .home-games .section-heading{align-items:flex-end;gap:12px}
+  .home-games .section-heading .text-link{font-size:12px;gap:8px}
+  .catalog-grid{grid-template-columns:1fr;gap:24px}
+  .catalog-grid .game-card-art{aspect-ratio:1.55}
+  .catalog-grid .game-card-info{min-height:0;padding:22px 23px 25px}
+  .catalog-grid .game-card-info h3{font-size:29px}
+  .catalog-grid .game-card-info p{font-size:15px}
+  .catalog-grid .round-arrow{flex:none}
+  .listing.catalog-grid{padding-bottom:70px}
+  .cat-detail-hero{grid-template-columns:1fr;padding-top:35px;padding-bottom:65px;gap:32px}
+  .cat-detail-copy .game-identity h1{font-size:clamp(32px,8vw,40px)}
+  .cat-detail-copy h2{font-size:30px}
+  .cat-detail-copy .lede{font-size:16px}
+  .cat-hero-visual{height:min(100vw,460px)}
+  .cat-screens{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+}
+@media(max-width:380px){.catalog-grid .game-card-info{padding-inline:19px}.catalog-grid .game-card-info h3{font-size:26px}.catalog-grid .round-arrow{width:42px;height:42px}.cat-detail-copy .game-identity{gap:14px}.cat-detail-copy .game-identity img{width:66px;height:66px}}
+@media(prefers-reduced-motion:reduce){.catalog-grid .game-card{transition:none}.catalog-grid .game-card:hover{transform:none}}

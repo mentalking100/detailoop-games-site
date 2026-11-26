@@ -6,6 +6,7 @@ export const facts = {
   brandKo: '디테일룹 게임즈',
   tagline: 'DETAILS BUILD WORLDS.',
   domain: 'https://detailoopgames.com',
+  aiSiteUrl: 'https://detailoopai.com/',
   email: 'happyone123@naver.com',
   storeUrl: 'https://play.google.com/store/apps/details?id=com.hoegwibutton.game',
   storeVerified: true, // Confirmed by the game owner in this conversation, 2026-11-12.
@@ -26,6 +27,8 @@ const gameCopy = {
     description: 'A life-choice and story simulation game that takes you back to 2006 to face life’s choices again.',
   },
 } as const;
+
+const homeTitleKo = ['디테일로 넓히는', '경험의 세계.'] as const;
 
 export const content = {
   ko: {
@@ -61,7 +64,8 @@ export const content = {
     },
     home: {
       eyebrow: 'Detailoop Games',
-      title: '디테일로 넓히는 경험의 세계.',
+      title: homeTitleKo.join(' '),
+      titleLines: homeTitleKo,
       description: [
         '게임은 우리가 경험할 수 있는 세계를 넓혀줍니다.',
         '디테일룹은 그 세계를 믿고 탐험할 수 있도록, 작은 규칙과 선택의 결과까지 세심하게 설계합니다.',
@@ -196,7 +200,7 @@ export const content = {
       deletionCta: '이메일로 삭제 요청하기',
       deletionSubject: '회귀버튼 온라인 계정 삭제 요청',
       deletionSafety: 'Google 계정 자체, 휴대폰에 저장된 게임 진행, 외부에 공유한 게시물은 온라인 계정 삭제 대상에 포함되지 않습니다. 비밀번호·인증 코드·로그인 토큰·신분증은 보내지 마세요.',
-      deletionPreview: '새 버전의 앱·웹 자동 삭제 경로는 공개 전 검토 중입니다. 서비스 중지나 세션 만료 때도 기존 계정 삭제를 위한 별도 인증이 가능하도록 준비했으며, 실제 배포 환경에서 검증한 뒤 연결합니다.',
+      deletionPreview: '앱에서도 보관 설정에서 온라인 계정 삭제를 요청할 수 있습니다. 앱을 이용할 수 없다면 위 이메일로 요청해 주세요.',
     },
     policies: {
       status: '공개 전 검토 중',
@@ -378,7 +382,7 @@ export const content = {
       deletionCta: 'Request deletion by email',
       deletionSubject: '회귀버튼 online account deletion request',
       deletionSafety: 'Online account deletion does not remove your Google account, on-device game progress or posts shared elsewhere. Do not send passwords, verification codes, sign-in tokens or identity documents.',
-      deletionPreview: 'The new app and web self-service deletion routes are under review before publication. They have been prepared to let an existing account authenticate for deletion even during service closure or after session expiry, and will be linked after deployment verification.',
+      deletionPreview: 'You can also request online account deletion from the storage settings in the app. If you cannot use the app, send a request to the email address above.',
     },
     policies: {
       status: 'Under review before publication',

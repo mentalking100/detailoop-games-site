@@ -1,12 +1,17 @@
 ---
-import {content, type Locale} from '../data/content';
+import {type Locale} from '../data/content';
+import {gameCatalog} from '../data/games';
 import {pathFor} from '../lib/site';
-interface Props {locale: Locale}
-const {locale} = Astro.props;
-const c = content[locale];
+interface Props {locale: Locale; game: ReturnType<typeof gameCatalog>[number]}
+const {locale, game} = Astro.props;
+const cat = game.route === 'games/cat-courier-club';
 ---
-<a class="game-card" href={pathFor(locale,'games/hoegwi-button')}>
-  <div class="game-card-art"><img class="room-art" src="/media/room.webp" alt="" width="1536" height="1024" loading="lazy" /><div class="art-shade"></div><img class="game-icon" src="/media/icon-a.webp" alt="" width="768" height="768" loading="lazy" /><span class="year-tag">2006<span>→</span></span></div>
-  <div class="game-card-info"><div><span class="eyebrow">{locale === 'ko' ? '출시작' : 'RELEASED GAME'}</span><h3>{c.game.name}</h3><p>{c.home.gameDescription}</p></div><span class="round-arrow" aria-label={c.games.detailCta}>↗</span></div>
+<a class:list={['game-card', 'catalog-card', {'cat-card':cat}]} href={pathFor(locale,game.route)} aria-label={`${game.name} — ${game.detailCta}`}>
+  <div class="game-card-art">
+    {cat ? <div class="cat-card-art" aria-hidden="true"><span class="cat-card-halo"></span><img class="cat-card-screen cat-card-screen-left" src="/media/cat-screen-4.webp" alt="" width="800" height="1422" loading="lazy"/><img class="cat-card-screen cat-card-screen-main" src={game.image} alt="" width="800" height="1422" loading="lazy"/><img class="cat-card-screen cat-card-screen-right" src="/media/cat-screen-2.webp" alt="" width="800" height="1422" loading="lazy"/><img class="cat-card-icon" src={game.icon} alt="" width="512" height="512" loading="lazy"/></div>
+      : <><img class="room-art" src={game.image} alt="" width="1536" height="1024" loading="lazy"/><div class="art-shade"></div><img class="game-icon" src={game.icon} alt="" width="768" height="768" loading="lazy"/></>}
+    <span class="year-tag">{game.visualLabel}<span aria-hidden="true">↗</span></span>
+  </div>
+  <div class="game-card-info"><div><span class="eyebrow">{game.status}</span><h3>{game.name}</h3><p>{game.description}</p></div><span class="round-arrow" data-cta-attention={!cat ? '' : undefined} aria-hidden="true"><span class="cta-arrow">↗</span></span></div>
 </a>
 

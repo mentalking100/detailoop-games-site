@@ -1,0 +1,106 @@
+/* Stone stays still. Light moves over masks aligned to each source image. */
+.home-world{
+  --scene-height:clamp(740px,56.25vw,1020px);
+  --stone-texture:url('/media/stone-texture-desktop-20261121.webp');
+  position:relative;
+  isolation:isolate;
+  background:var(--paper);
+}
+.home-world::before{
+  content:'';
+  position:absolute;
+  inset:var(--scene-height) 0 0;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(to bottom,var(--paper),transparent 17%,transparent 84%,var(--paper)),
+    var(--stone-texture) right center / cover no-repeat;
+}
+.world-intro{position:relative;isolation:isolate}
+.world-scene{position:absolute;z-index:-1;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:1920px;height:var(--scene-height);overflow:hidden;pointer-events:none;background:#07100d}
+.world-picture,.lightcut-map{position:absolute;inset:0;display:block;width:100%;height:100%}
+.world-picture img{display:block;width:100%;height:100%;object-fit:cover;object-position:center bottom}
+.lightcut-map--mobile{display:none}
+.world-shade{position:absolute;inset:0;background:linear-gradient(180deg,#10171550 0%,transparent 20%,transparent 80%,#10171575 92%,#101715 100%)}
+.lightcut-traveler,.lightcut-reflection{transform-box:view-box;transform-origin:0 0}
+.lightcut-traveler{opacity:1;transform:translate(0,0)}
+.lightcut-reflection{opacity:.7;transform:translate(0,0)}
+.intro-ready .lightcut-traveler{animation:lightcut-travel-desktop 16s ease-in-out 2.2s infinite}
+.intro-ready .lightcut-reflection{animation:lightcut-reflect-desktop 16s ease-in-out 2.2s infinite}
+.intro-ready .lightcut-map--mobile .lightcut-traveler{animation-name:lightcut-travel-mobile}
+.intro-ready .lightcut-map--mobile .lightcut-reflection{animation-name:lightcut-reflect-mobile}
+.intro-entering .lightcut-arrival{animation:lightcut-open 2.2s ease-in-out both;transform-origin:54% 80%}
+.intro-entering .lightcut-map--mobile .lightcut-arrival{transform-origin:50% 74%}
+.intro-entering .hero-slogan{animation:intro-copy .95s ease-out .15s both}
+.intro-entering .hero-copy>h1{animation:intro-copy 1s ease-out .3s both}
+.intro-entering .hero-description{animation:intro-copy .95s ease-out .5s both}
+.intro-entering .hero-link{animation:intro-copy .95s ease-out .7s both}
+.hero-copy:focus-within>*{animation:none!important}
+.world-intro .hero{
+  min-height:var(--scene-height);
+  padding:56px max(var(--page-gutter),calc((100% - var(--content-max))/2)) 115px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:center;align-items:end;gap:24px;
+  text-align:left;background:none;overflow:visible;
+}
+.world-intro .hero-copy{min-width:0;max-width:900px}
+.world-intro .hero h1{
+  max-width:670px;margin-inline:0;font-size:clamp(43px,5.1vw,70px);line-height:1.12;
+  letter-spacing:-.038em;text-wrap:balance;text-shadow:0 3px 28px #07130a88;
+}
+.hero-title-line{display:block}
+.world-intro .hero-slogan{
+  max-width:6ch;color:#b7d6c2;
+  font:700 18px/1.2 var(--display);letter-spacing:.13em;text-align:right;
+  text-shadow:0 2px 12px #06160b;
+}
+.world-intro .hero-description{max-width:720px;font-size:17px;line-height:1.8;margin:22px 0 0;letter-spacing:-.012em}
+.world-intro .hero-description p{color:#dae0d9;text-shadow:0 2px 12px #06160b}
+.world-intro .hero-description p+p{margin-top:7px}
+.world-intro .hero-link{margin-top:23px;min-height:46px;font-size:14px;padding:10px 21px;background:#10251bc9;border-color:#b3d6bf65;backdrop-filter:blur(8px)}
+html[lang=en] .world-intro .hero h1{max-width:740px;font-size:clamp(42px,4.7vw,64px);line-height:1.15}
+html[lang=en] .world-intro .hero-description{max-width:680px}
+.motion-toggle{position:absolute;right:max(var(--page-gutter),calc((100vw - 1240px)/2));bottom:48px;display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:10px 16px;border:1px solid #b8cdb740;border-radius:100px;background:#101715c9;color:#d5ddd3;font-family:inherit;font-size:12px;font-weight:500;line-height:1.4;cursor:pointer;z-index:3}
+.motion-toggle[hidden]{display:none}
+.motion-toggle:hover{background:#22372be8;border-color:#b8cdb790}
+.motion-toggle:focus-visible{outline:2px solid var(--mint);outline-offset:4px}
+.motion-symbol{height:10px;width:8px;border-inline:2px solid currentColor;opacity:.85}
+.motion-toggle[aria-pressed=true] .motion-symbol{width:0;height:0;border:5px solid transparent;border-left:8px solid currentColor;border-right:0}
+.world-intro .home-philosophy{position:relative;padding-block:12px 90px;isolation:isolate}
+.world-intro .home-philosophy:before{display:none}
+.world-intro .home-philosophy:after{content:'';position:absolute;inset:-100px -15% 0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 45% 8%,#4761441c,transparent 67%)}
+.world-intro .home-philosophy>.section-heading{margin-bottom:45px}
+.world-intro .philosophy-highlights article{border-top-color:#9eb39240}
+.world-intro .philosophy-highlights p{color:#bcc8bf}
+.world-intro .expanded-principles{background:#17241ee6}
+@keyframes lightcut-open{0%{opacity:.08;transform:scaleX(.08)}70%{opacity:1}100%{opacity:1;transform:scaleX(1)}}
+@keyframes intro-copy{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes lightcut-travel-desktop{0%,100%{transform:translate(0,0);opacity:.85}50%{transform:translate(460px,-115px);opacity:1}}
+@keyframes lightcut-reflect-desktop{0%,100%{transform:translate(-80px,0);opacity:.65}50%{transform:translate(260px,-35px);opacity:1}}
+@keyframes lightcut-travel-mobile{0%,100%{transform:translate(0,0);opacity:.85}50%{transform:translate(310px,-142px);opacity:1}}
+@keyframes lightcut-reflect-mobile{0%,100%{transform:translate(-80px,0);opacity:.65}50%{transform:translate(140px,-35px);opacity:1}}
+.world-intro.motion-paused :is(.lightcut-traveler,.lightcut-reflection){animation-play-state:paused}
+html[data-motion-paused=true] :is(.cta-attention-playing::before,.cta-attention-playing .cta-arrow){animation:none!important}
+@media(min-width:1921px){.world-scene{mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}}
+@media(min-width:701px) and (max-height:800px){.home-world{--scene-height:max(600px,calc(100svh - 84px))}}
+@media(min-width:701px) and (max-width:1100px){.world-intro .hero{padding-top:48px}}
+@media(max-width:700px){
+ .home-world{
+   --scene-height:clamp(640px,calc(100svh - 119px),800px);
+   --stone-texture:url('/media/stone-texture-mobile-20261121.webp');
+ }
+ .lightcut-map--desktop{display:none}.lightcut-map--mobile{display:block}
+ .world-intro .hero{grid-template-columns:minmax(0,1fr);align-content:start;gap:15px;padding-top:48px;padding-bottom:108px}
+ .world-intro .hero h1{font-size:clamp(36px,9.3vw,40px);max-width:480px;line-height:1.24;letter-spacing:-.025em}
+ .world-intro .hero-slogan{grid-row:1;max-width:none;text-align:left;font-size:13px;letter-spacing:.2em}
+ .world-intro .hero-description{font-size:16px;line-height:1.8;max-width:480px;margin-top:20px}
+ .world-intro .hero-description p+p{margin-top:7px}
+ .world-intro .hero-link{margin-top:20px;font-size:13px;min-height:44px;padding:10px 19px}
+ html[lang=en] .world-intro .hero h1{font-size:clamp(36px,9vw,40px);max-width:500px;line-height:1.16}
+ html[lang=en] .world-intro .hero-description{max-width:450px}
+ .motion-toggle{bottom:27px;right:var(--page-gutter);font-size:11px;padding:9px 13px}
+ .world-intro .home-philosophy{padding-block:8px 60px}
+ .world-intro .home-philosophy>.section-heading{margin-bottom:32px}
+ .world-intro .home-philosophy>.section-heading h2{font-size:28px}
+}
+@media(max-width:430px) and (max-height:700px){.world-intro .hero{padding-top:30px}.world-intro .hero h1,html[lang=en] .world-intro .hero h1{font-size:33px}.world-intro .hero-description{font-size:14px;margin-top:16px}}
+@media(prefers-reduced-motion:reduce){.world-intro :is(.lightcut-traveler,.lightcut-reflection,.lightcut-arrival,.hero-copy>*,.hero-description,.hero-slogan){animation:none!important}.motion-toggle{display:none}}
+@media print{.home-world::before,.world-scene,.motion-toggle{display:none}.world-intro .hero{min-height:0;padding-block:40px}.world-intro .home-philosophy{padding-block:30px}}

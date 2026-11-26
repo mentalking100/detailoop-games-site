@@ -1,7 +1,8 @@
 import { content, facts, type Locale } from '../data/content.ts';
+import { gameForRoute } from '../data/games.ts';
 import { policyDocuments, policyReadiness, type PolicyKey } from '../data/policies.ts';
 
-export const routes = ['', 'philosophy', 'games', 'games/hoegwi-button', 'studio', 'studio/park-jaeyoung', 'news', 'contact', 'policies', 'policies/terms', 'policies/game-privacy', 'policies/site-privacy'] as const;
+export const routes = ['', 'philosophy', 'games', 'games/hoegwi-button', 'games/cat-courier-club', 'studio', 'studio/park-jaeyoung', 'news', 'contact', 'policies', 'policies/terms', 'policies/game-privacy', 'policies/site-privacy'] as const;
 export type Route = typeof routes[number];
 export const pathFor = (locale: Locale, route: string = '') => `/${locale}/${route ? route + '/' : ''}`;
 export const absolute = (path: string) => `${facts.domain}${path}`;
@@ -25,7 +26,8 @@ export function pageInfo(locale: Locale, route: Route) {
     '': { title: facts.brand, description: c.home.description.join(' ') },
     'philosophy': {title: c.philosophy.title, description: c.philosophy.intro},
     'games': {title: c.games.title, description: c.games.intro},
-    'games/hoegwi-button': {title: facts.gameName, description: c.home.gameDescription},
+    'games/hoegwi-button': {title: gameForRoute(locale, 'games/hoegwi-button')!.name, description: gameForRoute(locale, 'games/hoegwi-button')!.description},
+    'games/cat-courier-club': {title: gameForRoute(locale, 'games/cat-courier-club')!.name, description: gameForRoute(locale, 'games/cat-courier-club')!.description},
     'studio': {title: c.studio.title, description: c.studio.description.join(' ')},
     'studio/park-jaeyoung': {title: facts.personName, description: c.founder.intro},
     'news': {title: c.news.title, description: c.news.intro},
@@ -42,14 +44,15 @@ export function structuredData(locale: Locale, route: Route) {
   const info = pageInfo(locale, route);
   const url = absolute(pathFor(locale, route));
   const orgId = `${facts.domain}/#organization`;
-  const gameId = `${facts.domain}/#hoegwi-button`;
+  const game = gameForRoute(locale, route);
+  const gameId = game ? `${facts.domain}/#${route.split('/')[1]}` : undefined;
   const personId = `${facts.domain}/#park-jaeyoung`;
   const graph: Record<string, unknown>[] = [
     {'@type': 'Organization', '@id': orgId, name: facts.brand, alternateName: facts.brandKo, url: facts.domain, logo: absolute('/media/detailoop-logo.png')},
     {'@type': 'WebSite', '@id': `${facts.domain}/#website`, url: facts.domain, name: facts.brand, publisher: {'@id': orgId}, inLanguage: ['ko', 'en']},
-    {'@type': route === 'studio/park-jaeyoung' ? 'ProfilePage' : route === 'studio' ? 'AboutPage' : route === 'contact' ? 'ContactPage' : 'WebPage', '@id': `${url}#webpage`, url, name: info.title, description: info.description, inLanguage: locale, isPartOf: {'@id': `${facts.domain}/#website`}, ...(route === 'studio/park-jaeyoung' ? {mainEntity: {'@id': personId}} : route === 'games/hoegwi-button' ? {mainEntity: {'@id': gameId}} : {})},
+    {'@type': route === 'studio/park-jaeyoung' ? 'ProfilePage' : route === 'studio' ? 'AboutPage' : route === 'contact' ? 'ContactPage' : 'WebPage', '@id': `${url}#webpage`, url, name: info.title, description: info.description, inLanguage: locale, isPartOf: {'@id': `${facts.domain}/#website`}, ...(route === 'studio/park-jaeyoung' ? {mainEntity: {'@id': personId}} : gameId ? {mainEntity: {'@id': gameId}} : {})},
   ];
-  if (route === 'games/hoegwi-button') graph.push({'@type': 'VideoGame', '@id': gameId, name: facts.gameName, url, description: c.home.gameDescription, publisher: {'@id': orgId}, image: absolute('/media/icon-a.webp')});
+  if (game) graph.push({'@type': 'VideoGame', '@id': gameId, name: game.name, url, description: game.description, publisher: {'@id': orgId}, image: absolute(game.icon)});
   if (['studio', 'studio/park-jaeyoung'].includes(route)) graph.push({'@type': 'Person', '@id': personId, name: facts.personName, url: absolute(pathFor(locale,'studio/park-jaeyoung')), jobTitle: c.founder.role, description: c.founder.intro, worksFor: {'@id': orgId}, alumniOf: {'@type': 'CollegeOrUniversity', name: locale === 'ko' ? facts.universityKo : facts.universityEn}});
   return {'@context': 'https://schema.org', '@graph': graph};
 }

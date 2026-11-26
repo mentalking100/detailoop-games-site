@@ -2,7 +2,8 @@ import {readFile,readdir,access,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {parseArgs} from 'node:util';
 import {load} from 'cheerio';
-import {facts,content,locales} from '../src/data/content.ts';
+import {facts,locales} from '../src/data/content.ts';
+import {gameCatalog} from '../src/data/games.ts';
 import {isPolicyDraft,buildRoutes,pathFor,assertPublicationReady} from '../src/lib/site.ts';
 import {policyDocuments} from '../src/data/policies.ts';
 const {values:options}=parseArgs({options:{
@@ -31,6 +32,9 @@ for(const file of pages){
   const relative=path.relative(root,file).replaceAll('\\','/');
   const urlPath='/'+relative.replace(/index\.html$/,'');
   const locale=urlPath.split('/')[1];
+  const route=routeFromPath(urlPath);
+  const games=gameCatalog(locale);
+  const game=games.find(item=>item.route===route);
   const html=await readFile(file,'utf8');const $=load(html);
   const robots=($('meta[name="robots"]').attr('content')||'').split(',').map(x=>x.trim());
   check(robots.includes(options.public?'index':'noindex')&&!robots.includes(options.public?'noindex':'index'),`${relative}: ${options.public?'public indexing':'review noindex'}`);
@@ -50,14 +54,43 @@ for(const file of pages){
   for(const entity of graph){
     for(const prop of ['name','description','jobTitle']) if(entity[prop]) check(body.includes(normalize(entity[prop])),`${relative}: ${entity['@type']}.${prop} is visible`);
     if(entity['@type']==='VideoGame'){
-      check(entity.name===facts.gameName,`${relative}: game name`);
-      check(entity.description===content[locale].home.gameDescription,`${relative}: game description source`);
+      check(Boolean(game),`${relative}: VideoGame is on a game detail page`);
+      if(game){
+        check(entity.name===game.name,`${relative}: game name matches catalog`);
+        check(entity.description===game.description,`${relative}: game description matches catalog`);
+        check(entity.url===facts.domain+pathFor(locale,game.route),`${relative}: game URL matches catalog route`);
+        check([game.image,game.icon].map(image=>facts.domain+image).includes(entity.image),`${relative}: game image matches catalog`);
+        check(page?.mainEntity?.['@id']===entity['@id'],`${relative}: game is page main entity`);
+      }
       for(const prop of ['offers','aggregateRating','review','datePublished','releaseDate','inLanguage','softwareVersion']) check(!(prop in entity),`${relative}: no unverified ${prop}`);
     }
     if(entity['@type']==='Person'){
       check(!('birthDate' in entity),`${relative}: no invented birthday`);
       check(body.includes(entity.alumniOf.name),`${relative}: visible education`);
     }
+  }
+  if(game){
+    check(graph.filter(entity=>entity['@type']==='VideoGame').length===1,`${relative}: exactly one game entity`);
+    check($('meta[property="og:image"]').attr('content')===facts.domain+game.ogImage,`${relative}: game share image matches catalog`);
+    check($('meta[property="og:image:alt"]').attr('content')===game.name,`${relative}: game share image alt matches catalog`);
+    check($(`main a[href="${game.storeUrl}"]`).length>0,`${relative}: game store link matches catalog`);
+  }
+  if(route==='' || route==='games'){
+    const cardLinks=$('main a.game-card').toArray().map(node=>$(node).attr('href'));
+    const expectedLinks=games.map(item=>pathFor(locale,item.route));
+    check(games.length===2 && games[0]?.route==='games/hoegwi-button' && games[1]?.route==='games/cat-courier-club',`${relative}: catalog order is Hoegwi then Cat`);
+    check(cardLinks.length===expectedLinks.length && cardLinks.every((href,i)=>href===expectedLinks[i]),`${relative}: equal game cards appear once each in catalog order`);
+    games.forEach((item,i)=>{
+      const cardText=normalize($('main a.game-card').eq(i).text());
+      check(cardText.includes(item.name),`${relative}: card ${i+1} shows catalog game name`);
+      check(cardText.includes(normalize(item.description)),`${relative}: card ${i+1} shows catalog description`);
+    });
+  }
+  if(route==='games/cat-courier-club'){
+    const mainLinks=$('main a[href]').toArray().map(node=>({href:$(node).attr('href'),label:normalize($(node).text())}));
+    const privacyLinks=mainLinks.filter(link=>/개인정보|privacy/i.test(link.label) && /^https:\/\//.test(link.href) && !link.href.startsWith(facts.domain) && link.href!==game?.storeUrl);
+    check(privacyLinks.length>0,`${relative}: Cat game has an external game privacy link`);
+    check(!mainLinks.some(link=>link.href?.includes('#account-deletion') || /\/(ko|en)\/policies\/game-privacy\//.test(link.href||'')),`${relative}: Hoegwi account and game policy links do not appear in Cat detail`);
   }
   for(const node of $('a[href],img[src],source[src],link[rel="stylesheet"],link[rel="icon"]')){
     const ref=$(node).attr('href')||$(node).attr('src');if(!ref||/^(https?:|mailto:|data:)/.test(ref))continue;
@@ -88,6 +121,7 @@ const sitemapUrls=sitemap('loc').toArray().map(el=>sitemap(el).text());
 check(sitemap('url').length===expectedSitemapUrls.length,'Sitemap includes all generated pages except policy drafts, including news');
 check(new Set(sitemapUrls).size===expectedSitemapUrls.length && expectedSitemapUrls.every(url=>sitemapUrls.includes(url)),'Sitemap URLs match all generated non-draft pages');
 check(!sitemapUrls.some(url=>isPolicyDraft(routeFromPath(new URL(url).pathname))),'Draft policy pages excluded from sitemap');
+for(const locale of locales)for(const game of gameCatalog(locale))check(sitemapUrls.includes(facts.domain+pathFor(locale,game.route)),`Sitemap includes ${locale} ${game.name} detail page`);
 const actualPaths=pages.map(file=>'/'+path.relative(root,file).replaceAll('\\','/').replace(/index\.html$/,''));
 const expectedBasePaths=locales.flatMap(locale=>buildRoutes(profile).map(route=>pathFor(locale,route)));
 const basePaths=actualPaths.filter(urlPath=>!/^\/(ko|en)\/news\/[^/]+\/$/.test(urlPath));

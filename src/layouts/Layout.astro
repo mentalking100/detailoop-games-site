@@ -1,8 +1,13 @@
 ---
 import '../styles/global.css';
 import '../styles/dark.css';
+import '../styles/refresh.css';
+import '../styles/cta-motion.css';
+import '../styles/world-intro.css';
+import '../styles/catalog.css';
 import Brand from '../components/Brand.astro';
 import { content, facts, type Locale } from '../data/content';
+import { gameForRoute } from '../data/games';
 import { pathFor, absolute, pageInfo, structuredData, isPolicyDraft, assertPublicationReady, type Route } from '../lib/site';
 import {type NewsPost,newsAuthor} from '../data/news';
 interface Props { locale: Locale; route: Route; article?: NewsPost }
@@ -22,6 +27,7 @@ const isPublic = import.meta.env.PUBLIC_RELEASE === 'true';
 const siteProfile = isPublic || import.meta.env.SITE_PROFILE === 'website' ? 'website' : 'review';
 if (isPublic) assertPublicationReady(siteProfile);
 const title = route ? `${info.title} — ${facts.brand}` : `${facts.brand} · ${facts.brandKo}`;
+const pageGame = gameForRoute(locale, route);
 const nav = [{key:'philosophy',label:c.nav.philosophy},{key:'games',label:c.nav.games},{key:'studio',label:c.nav.studio},{key:'news',label:c.nav.news}];
 ---
 <!doctype html>
@@ -39,21 +45,22 @@ const nav = [{key:'philosophy',label:c.nav.philosophy},{key:'games',label:c.nav.
     <link rel="alternate" hreflang="en" href={absolute(pathFor('en', currentRoute))} />
     <link rel="alternate" hreflang="x-default" href={absolute(pathFor('ko', currentRoute))} />
     <link rel="icon" type="image/png" href="/media/detailoop-logo.png" />
-    <link rel="preload" href="/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/DetailoopText-Regular.woff2?v=ab3d87252048" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/DetailoopText-Bold.woff2?v=189598d7c0cc" as="font" type="font/woff2" crossorigin />
     <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:site_name" content={facts.brand} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={info.description} />
     <meta property="og:url" content={absolute(pathFor(locale, currentRoute))} />
     <meta property="og:locale" content={locale === 'ko' ? 'ko_KR' : 'en_US'} />
-    <meta property="og:image" content={absolute(route.startsWith('games') ? '/media/share-game.jpg' : '/media/share-studio.jpg')} />
+    <meta property="og:image" content={absolute(pageGame?.ogImage ?? '/media/share-studio.jpg')} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={route.startsWith('games') ? facts.gameName : facts.brand} />
+    <meta property="og:image:alt" content={pageGame?.name ?? facts.brand} />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\u003c')} />
   </head>
-  <body>
+  <body data-page={route || 'home'}>
     <a class="skip-link" href="#main">{locale === 'ko' ? '본문으로 건너뛰기' : 'Skip to content'}</a>
     <header class="header">
       <Brand locale={locale} />
@@ -65,7 +72,17 @@ const nav = [{key:'philosophy',label:c.nav.philosophy},{key:'games',label:c.nav.
     <main id="main"><slot /></main>
     <footer class="footer">
       <div class="footer-main"><Brand locale={locale}/><p>{c.studio.tagline}</p></div>
-      <div class="footer-bottom"><div><span>{facts.brand} · {facts.brandKo}</span><small>{c.footer.copyright}</small></div><nav aria-label={locale === 'ko' ? '하단 메뉴' : 'Footer navigation'}><a href={pathFor(locale,'contact')}>{locale === 'ko' ? '문의' : 'Contact'}</a><a href={`${pathFor(locale,'contact')}#account-deletion`}>{locale === 'ko' ? '계정 삭제 요청' : 'Account deletion'}</a>{(siteProfile === 'review' || !isPolicyDraft('policies/terms')) && <a href={pathFor(locale,'policies/terms')}>{locale === 'ko' ? '이용약관' : 'Terms'}</a>}<a href={pathFor(locale,siteProfile === 'website' ? 'policies/site-privacy' : 'policies')}>{locale === 'ko' ? '개인정보처리방침' : 'Privacy'}</a></nav></div>
+      <div class="footer-bottom">
+        <div><span>{facts.brand} · {facts.brandKo}</span><small>{c.footer.copyright}</small></div>
+        <nav aria-label={locale === 'ko' ? '하단 메뉴' : 'Footer navigation'}>
+          <a href={pathFor(locale,'contact')}>{locale === 'ko' ? '문의' : 'Contact'}</a>
+          <a href={`${pathFor(locale,'contact')}#account-deletion`}>{c.contact.deletionTitle}</a>
+          {(siteProfile === 'review' || !isPolicyDraft('policies/terms')) && <a href={pathFor(locale,'policies/terms')}>{c.policies.terms}</a>}
+          <a href={pathFor(locale,siteProfile === 'website' ? 'policies/site-privacy' : 'policies')}>{c.policies.sitePrivacy}</a>
+          <a class="ai-site-link" href={facts.aiSiteUrl}>Detailoop AI <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
     </footer>
+    <script src="../scripts/motion.ts"></script>
   </body>
 </html>
